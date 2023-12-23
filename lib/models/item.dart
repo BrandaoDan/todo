@@ -1,18 +1,33 @@
 class Item {
-  String? title;
-  bool? done;
+  final int id;
+  final String title;
+  bool _done; // Adição aqui
 
-  Item({this.title, this.done});
+  Item({
+    required this.id,
+    required this.title,
+    required bool done,
+  }) : _done = done;
 
-  Item.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    done = json['done'];
+  bool get done => _done;
+
+  set done(bool value) {
+    _done = value;
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['done'] = this.done;
-    return data;
+  factory Item.fromMap(Map<String, dynamic> map) {
+    return Item(
+      id: map['id'] as int,
+      title: map['title'] as String,
+      done: map['done'] == 1,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'title': title,
+      'done': done ? 1 : 0,
+    };
   }
 }
